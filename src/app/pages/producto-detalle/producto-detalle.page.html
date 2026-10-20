@@ -1,0 +1,185 @@
+@if (producto; as p) {
+  <div class="container my-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a routerLink="/">Inicio</a></li>
+        <li class="breadcrumb-item"><a routerLink="/catalogo">Catálogo</a></li>
+        <li class="breadcrumb-item"><a routerLink="/catalogo" [queryParams]="{ categoria: p.categoria }">{{ nombreCategoria }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ p.nombre }}</li>
+      </ol>
+    </nav>
+
+    <!-- Información del producto -->
+    <div class="row g-4 g-lg-5">
+      <div class="col-md-6">
+        <div class="ts-detail-img">
+          <img [src]="p.imagen" [alt]="p.nombre" />
+        </div>
+      </div>
+      <div class="col-md-6">
+        <span class="badge ts-badge-soft mb-2">{{ nombreCategoria }}</span>
+        <h1 class="h2 fw-bold">{{ p.nombre }}</h1>
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <app-star-rating [calificacion]="promedio" />
+          <span class="small text-body-secondary">{{ promedio.toFixed(1) }} · {{ resenas.length }} reseña(s)</span>
+        </div>
+        <p class="ts-price fs-2 mb-3">{{ p.precio | currency: 'MXN' : 'symbol-narrow' }}</p>
+        <p class="text-body-secondary">{{ p.descripcion }}</p>
+
+        <ul class="list-unstyled small mb-4">
+          <li>
+            <strong>Disponibilidad:</strong>&nbsp;
+            @if (disponible) {
+              <span class="text-success"><i class="bi bi-check-circle-fill"></i> Disponible ({{ p.stock }} en existencia)</span>
+            } @else {
+              <span class="text-danger"><i class="bi bi-x-circle-fill"></i> No disponible por el momento</span>
+            }
+          </li>
+          <li><strong>Categoría:</strong> {{ nombreCategoria }}</li>
+        </ul>
+
+        <!-- Añadir al pedido (el administrador no compra) -->
+        @if (!esAdmin) {
+          <div class="card ts-card">
+            <div class="card-body">
+              @if (disponible && maximoAgregable > 0) {
+                <label class="form-label fw-semibold" for="cantidad">Cantidad</label>
+                <div class="d-flex flex-wrap gap-2">
+                  <div class="input-group ts-qty">
+                    <button class="btn btn-outline-secondary" type="button" (click)="cambiarCantidad(-1)" aria-label="Menos">-</button>
+                    <input id="cantidad" name="cantidad" type="number" class="form-control text-center" min="1" [max]="maximoAgregable" [(ngModel)]="cantidad" (change)="cambiarCantidad(0)" />
+                    <button class="btn btn-outline-secondary" type="button" (click)="cambiarCantidad(1)" aria-label="Más">+</button>
+                  </div>
+                  <button class="btn btn-ts flex-grow-1" (click)="agregarAlPedido()">
+                    <i class="bi bi-cart-plus"></i> Añadir a mi pedido
+                  </button>
+                </div>
+                @if (!estaAutenticado) {
+                  <p class="small text-body-secondary mt-2 mb-0"><i class="bi bi-info-circle"></i> Necesitas iniciar sesión para comprar.</p>
+                }
+              } @else if (disponible) {
+                <p class="mb-0 small"><i class="bi bi-cart-check"></i> Ya tienes en tu pedido todas las piezas disponibles. <a routerLink="/carrito">Ver carrito</a></p>
+              } @else {
+                <p class="mb-0 small text-body-secondary">Este producto no se puede añadir al pedido por ahora.</p>
+              }
+            </div>
+          </div>
+        } @else {
+          <div class="alert alert-info small mb-0">
+            <i class="bi bi-shield-lock"></i> Estás viendo el producto como administrador.
+            <a routerLink="/admin/productos">Gestionar catálogo</a>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Reseñas -->
+    <section class="mt-5" id="resenas">
+      <h2 class="h4 mb-3">Reseñas de clientes</h2>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card ts-card text-center">
+            <div class="card-body">
+              <div class="display-5 fw-bold">{{ promedio.toFixed(1) }}</div>
+              <app-star-rating [calificacion]="promedio" tamano="lg" />
+              <p class="small text-body-secondary mb-0 mt-1">{{ resenas.length }} reseña(s)</p>
+            </div>
+          </div>
+
+          <!-- Formulario de reseña -->
+          @if (puedeResenar || editandoResena) {
+            <form #form="ngForm" (ngSubmit)="guardarResena(form)" class="card ts-card mt-3" novalidate>
+              <div class="card-body">
+                <h3 class="h6">{{ editandoResena ? 'Editar mi reseña' : 'Escribe tu reseña' }}</h3>
+                <label class="form-label small mb-0">Calificación</label>
+                <div class="mb-2">
+                  <app-star-rating [calificacion]="calificacion" [editable]="true" tamano="lg" (cambio)="seleccionarCalificacion($event)" />
+                  @if (errorCalificacion) {
+                    <div class="text-danger small">Selecciona de 1 a 5 estrellas.</div>
+                  }
+                </div>
+                <label for="comentario" class="form-label small">Comentario</label>
+                <textarea id="comentario" name="comentario" class="form-control" rows="3" required minlength="10"
+                  #comentarioCtrl="ngModel" [(ngModel)]="comentario"
+                  [class.is-invalid]="comentarioCtrl.invalid && (comentarioCtrl.touched || form.submitted)"
+                  placeholder="¿Qué te pareció el producto?"></textarea>
+                <div class="invalid-feedback">Escribe al menos 10 caracteres.</div>
+                <div class="d-flex gap-2 mt-3">
+                  <button type="submit" class="btn btn-ts">{{ editandoResena ? 'Guardar cambios' : 'Publicar reseña' }}</button>
+                  @if (editandoResena) {
+                    <button type="button" class="btn btn-light" (click)="cancelarEdicion()">Cancelar</button>
+                  }
+                </div>
+              </div>
+            </form>
+          } @else if (!estaAutenticado) {
+            <p class="small text-body-secondary mt-3"><a routerLink="/login">Inicia sesión</a> para dejar una reseña de los productos que compraste.</p>
+          } @else if (esCliente && !miResena) {
+            <p class="small text-body-secondary mt-3"><i class="bi bi-info-circle"></i> Podrás dejar una reseña cuando compres este producto.</p>
+          }
+        </div>
+
+        <div class="col-lg-8">
+          @for (resena of resenas; track resena._id) {
+            <article class="ts-review" [class.ts-review-mine]="esMia(resena)">
+              <div class="d-flex justify-content-between align-items-start gap-2">
+                <div>
+                  <strong>{{ nombreAutor(resena.usuario) }}</strong>
+                  @if (esMia(resena)) { <span class="badge ts-badge-soft ms-1">Tu reseña</span> }
+                  <div class="small text-body-secondary">
+                    <app-star-rating [calificacion]="resena.calificacion" /> · {{ resena.fecha | date: 'd MMM y' }}
+                  </div>
+                </div>
+                <div class="d-flex gap-1">
+                  @if (esMia(resena) && !editandoResena) {
+                    <button class="btn btn-sm btn-light" (click)="editarMiResena()" title="Editar"><i class="bi bi-pencil"></i></button>
+                  }
+                  @if (esMia(resena) || esAdmin) {
+                    <button class="btn btn-sm btn-light text-danger" (click)="pedirEliminar(resena)" title="Eliminar"><i class="bi bi-trash"></i></button>
+                  }
+                </div>
+              </div>
+              <p class="mb-0 mt-2">{{ resena.comentario }}</p>
+            </article>
+          } @empty {
+            <div class="ts-empty py-4">
+              <i class="bi bi-chat-square-heart"></i>
+              <p class="mb-0">Este producto aún no tiene reseñas.</p>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Productos relacionados -->
+    @if (relacionados.length > 0) {
+      <section class="mt-5">
+        <h2 class="h4 mb-3">También te puede interesar</h2>
+        <div class="row g-4">
+          @for (r of relacionados; track r._id) {
+            <div class="col-sm-6 col-lg-4">
+              <app-product-card [producto]="r" [categoria]="nombreCategoria" [promedio]="promedioDe(r._id)" [totalResenas]="totalResenasDe(r._id)" />
+            </div>
+          }
+        </div>
+      </section>
+    }
+  </div>
+
+  <app-confirm-dialog
+    [visible]="resenaPorEliminar !== null"
+    titulo="Eliminar reseña"
+    [mensaje]="esAdmin ? 'La reseña se eliminará por incumplir las políticas del sitio.' : '¿Seguro que quieres eliminar tu reseña?'"
+    textoConfirmar="Eliminar"
+    (confirmar)="confirmarEliminar()"
+    (cancelar)="resenaPorEliminar = null" />
+} @else {
+  <div class="container my-5">
+    <div class="ts-empty">
+      <i class="bi bi-box-seam"></i>
+      <h1 class="h4">Producto no encontrado</h1>
+      <p>Es posible que haya sido eliminado del catálogo.</p>
+      <a routerLink="/catalogo" class="btn btn-ts">Volver al catálogo</a>
+    </div>
+  </div>
+}

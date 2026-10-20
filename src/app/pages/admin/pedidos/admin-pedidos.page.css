@@ -1,0 +1,12 @@
+/* Estilos exclusivos de este componente (admin-pedidos.page.css).
+   Los colores (--ts-*) y clases compartidas vienen de src/styles.css. */
+
+.ts-status-select {
+  width: 135px;
+  font-weight: 600;
+  border: 0;
+}
+
+.ts-detail-row td {
+  background: #f8fafc;
+}

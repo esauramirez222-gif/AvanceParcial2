@@ -1,0 +1,81 @@
+<nav class="navbar navbar-expand-lg navbar-dark ts-navbar sticky-top" [class.ts-navbar-scrolled]="conScroll()" aria-label="Navegación principal">
+  <div class="container">
+    <a class="navbar-brand ts-brand" routerLink="/" (click)="cerrarMenu()">
+      <span class="ts-brand-mark" aria-hidden="true"><i class="bi bi-lightning-charge-fill"></i></span>
+      <span class="text-white">Tecno<span>Store</span></span>
+    </a>
+
+    <button class="navbar-toggler border-0" type="button" (click)="alternarMenu()"
+      [attr.aria-expanded]="menuAbierto()" aria-controls="menuPrincipal"
+      [attr.aria-label]="menuAbierto() ? 'Cerrar menú' : 'Abrir menú'">
+      <i class="bi fs-3 text-white" [class]="menuAbierto() ? 'bi-x-lg' : 'bi-list'"></i>
+    </button>
+
+    <div id="menuPrincipal" class="collapse navbar-collapse" [class.show]="menuAbierto()">
+      <!-- Enlaces visibles para todos -->
+      <ul class="navbar-nav me-auto ms-lg-4">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="cerrarMenu()">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/catalogo" routerLinkActive="active" (click)="cerrarMenu()">Catálogo</a>
+        </li>
+
+        <!-- Enlaces exclusivos del administrador -->
+        @if (esAdmin) {
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/admin" routerLinkActive="active" (click)="cerrarMenu()">
+              <i class="bi bi-speedometer2"></i> Panel de administración
+            </a>
+          </li>
+        }
+      </ul>
+
+      <ul class="navbar-nav align-items-lg-center gap-lg-2">
+        @if (!estaAutenticado) {
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/login" routerLinkActive="active" (click)="cerrarMenu()">Iniciar sesión</a>
+          </li>
+          <li class="nav-item mt-2 mt-lg-0">
+            <a class="btn btn-ts-accent btn-sm px-3 rounded-pill" routerLink="/registro" (click)="cerrarMenu()">
+              Crear cuenta <i class="bi bi-arrow-right"></i>
+            </a>
+          </li>
+        } @else {
+          @if (esCliente) {
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/mis-pedidos" routerLinkActive="active" (click)="cerrarMenu()">Mis pedidos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/mi-cuenta" routerLinkActive="active" (click)="cerrarMenu()">
+                <i class="bi bi-person-circle"></i> {{ nombreUsuario }}
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link ts-cart-link" routerLink="/carrito" routerLinkActive="active" (click)="cerrarMenu()"
+                [attr.aria-label]="'Carrito, ' + articulosEnCarrito + ' artículo(s)'">
+                <span class="ts-cart-icon">
+                  <i class="bi bi-bag fs-5"></i>
+                  <!-- Se vuelve a crear al cambiar la cantidad para repetir la animación -->
+                  @for (n of [articulosEnCarrito]; track n) {
+                    @if (n > 0) {
+                      <span class="ts-badge-cart" aria-hidden="true">{{ n }}</span>
+                    }
+                  }
+                </span>
+                <span class="d-lg-none ms-2">Carrito</span>
+              </a>
+            </li>
+          } @else {
+            <li class="nav-item"><span class="navbar-text small me-2"><i class="bi bi-shield-lock"></i> {{ nombreUsuario }}</span></li>
+          }
+          <li class="nav-item mt-2 mt-lg-0">
+            <button class="btn btn-ts-ghost btn-sm rounded-pill px-3" (click)="cerrarSesion()">
+              <i class="bi bi-box-arrow-right"></i> Salir
+            </button>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</nav>

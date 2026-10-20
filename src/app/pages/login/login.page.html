@@ -1,0 +1,63 @@
+<div class="container ts-auth">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-5">
+      <div class="card ts-card shadow-sm">
+        <div class="card-body p-4 p-md-5">
+          <div class="text-center mb-4">
+            <span class="ts-auth-icon"><i class="bi bi-person-lock"></i></span>
+            <h1 class="h4 mt-3 mb-1">Iniciar sesión</h1>
+            <p class="text-body-secondary small mb-0">Ingresa con tu correo electrónico y contraseña.</p>
+          </div>
+
+          <form #form="ngForm" (ngSubmit)="iniciarSesion(form)" novalidate>
+            <div class="mb-3">
+              <label for="correo" class="form-label">Correo electrónico</label>
+              <input id="correo" name="correo" type="email" class="form-control" placeholder="tucorreo@ejemplo.com"
+                ngModel required email #correo="ngModel"
+                [class.is-invalid]="correo.invalid && (correo.touched || form.submitted)" />
+              <div class="invalid-feedback">
+                @if (correo.errors?.['required']) { El correo es obligatorio. } @else { Escribe un correo válido. }
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="contrasena" class="form-label">Contraseña</label>
+              <div class="input-group has-validation">
+                <input id="contrasena" name="contrasena" class="form-control" [type]="mostrarContrasena ? 'text' : 'password'"
+                  ngModel required #contrasena="ngModel"
+                  [class.is-invalid]="contrasena.invalid && (contrasena.touched || form.submitted)" />
+                <button class="btn btn-outline-secondary" type="button" (click)="mostrarContrasena = !mostrarContrasena"
+                  [attr.aria-label]="mostrarContrasena ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+                  <i class="bi" [class]="mostrarContrasena ? 'bi-eye-slash' : 'bi-eye'"></i>
+                </button>
+                <div class="invalid-feedback">La contraseña es obligatoria.</div>
+              </div>
+            </div>
+
+            @if (credencialesInvalidas) {
+              <div class="alert alert-danger small py-2" role="alert">
+                <i class="bi bi-exclamation-circle"></i> Correo o contraseña incorrectos.
+              </div>
+            }
+
+            <button type="submit" class="btn btn-ts w-100 py-2">Entrar</button>
+          </form>
+
+          <!-- Si no tiene cuenta, se le manda al registro -->
+          <div class="text-center mt-4">
+            <p class="small text-body-secondary mb-2">¿Todavía no tienes cuenta?</p>
+            <a routerLink="/registro" class="btn btn-outline-secondary w-100">Crear una cuenta</a>
+          </div>
+
+          <div class="ts-demo mt-4">
+            <p class="small fw-semibold mb-2"><i class="bi bi-info-circle"></i> Cuentas de prueba</p>
+            <div class="d-flex gap-2">
+              <button type="button" class="btn btn-sm btn-light flex-fill" (click)="usarCuentaDemo(form, 'cliente')">Cliente</button>
+              <button type="button" class="btn btn-sm btn-light flex-fill" (click)="usarCuentaDemo(form, 'admin')">Administrador</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+/* Estilos exclusivos de este componente (carrito.page.css).
+   Los colores (--ts-*) y clases compartidas vienen de src/styles.css. */
+
+.ts-qty-sm {
+  width: 110px;
+}
+
+.ts-summary {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  row-gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.ts-summary dt {
+  font-weight: 400;
+  color: var(--ts-muted);
+}
+
+.ts-summary dd {
+  margin: 0;
+  text-align: right;
+}
+
+.ts-summary .ts-summary-total {
+  border-top: 1px solid var(--ts-border);
+  padding-top: 0.6rem;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--ts-navy);
+}
+
+.ts-hint {
+  background: rgba(34, 211, 238, 0.12);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}

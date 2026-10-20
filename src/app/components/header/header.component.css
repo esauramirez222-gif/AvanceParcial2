@@ -1,0 +1,95 @@
+/* Estilos exclusivos de este componente (header.component.css).
+   Los colores (--ts-*) y clases compartidas vienen de src/styles.css. */
+
+.ts-navbar {
+  --bs-navbar-padding-y: 0.85rem;
+  background: rgba(6, 10, 26, 0.78);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: padding 0.3s var(--ts-ease), box-shadow 0.3s, background-color 0.3s;
+}
+
+/* Al bajar, la barra se compacta y gana sombra */
+.ts-navbar-scrolled {
+  --bs-navbar-padding-y: 0.5rem;
+  background: rgba(6, 10, 26, 0.9);
+  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.5);
+}
+
+.ts-navbar .nav-link {
+  position: relative;
+  color: rgba(226, 232, 255, 0.72);
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.ts-navbar .nav-link:hover,
+.ts-navbar .nav-link.active {
+  color: #fff;
+}
+
+/* Subrayado con degradado que crece desde el centro */
+@media (min-width: 992px) {
+  .ts-navbar .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 0.1rem;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--ts-gradient);
+    transform: scaleX(0);
+    transition: transform 0.3s var(--ts-ease);
+  }
+
+  .ts-navbar .nav-link:hover::after,
+  .ts-navbar .nav-link.active::after {
+    transform: scaleX(1);
+  }
+
+  .ts-navbar .ts-cart-link::after {
+    display: none;
+  }
+}
+
+.ts-cart-icon {
+  position: relative;
+  display: inline-block;
+}
+
+.ts-badge-cart {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 5px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--ts-accent);
+  color: var(--ts-ink);
+  font-size: 0.68rem;
+  font-weight: 700;
+  box-shadow: 0 0 0 2px var(--ts-ink);
+  animation: ts-bump 0.45s var(--ts-ease);
+}
+
+@keyframes ts-bump {
+  0% { transform: scale(0.4); }
+  60% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+/* Solo se muestra el anillo de foco al usar teclado */
+.navbar-toggler:focus:not(:focus-visible) {
+  box-shadow: none;
+}
+
+@media (max-width: 991.98px) {
+  .ts-navbar .navbar-collapse {
+    padding: 0.75rem 0 0.5rem;
+  }
+}

@@ -1,0 +1,20 @@
+<div class="d-flex flex-column min-vh-100">
+  <app-header />
+
+  <main class="flex-grow-1">
+    <!-- Aquí se renderiza la pantalla que corresponde a la ruta actual -->
+    <router-outlet />
+  </main>
+
+  <app-footer />
+</div>
+
+<!-- Notificación flotante (toast). El @for la vuelve a crear con cada mensaje nuevo
+     para que su animación y su barra de tiempo empiecen de nuevo. -->
+@for (n of notificacion ? [notificacion] : []; track n) {
+  <div class="ts-toast" [class]="'ts-toast-' + n.tipo" role="status" aria-live="polite">
+    <i class="bi" [class]="n.tipo === 'exito' ? 'bi-check-circle-fill' : n.tipo === 'error' ? 'bi-exclamation-circle-fill' : 'bi-info-circle-fill'"></i>
+    <span>{{ n.mensaje }}</span>
+    <button type="button" class="btn-close btn-close-white ms-2" aria-label="Cerrar" (click)="cerrarNotificacion()"></button>
+  </div>
+}

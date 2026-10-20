@@ -1,0 +1,14 @@
+/* Estilos exclusivos de este componente (mi-cuenta.page.css).
+   Los colores (--ts-*) y clases compartidas vienen de src/styles.css. */
+
+.ts-avatar {
+  display: inline-grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--ts-navy);
+  color: var(--ts-accent);
+  font-size: 1.5rem;
+  font-weight: 800;
+}

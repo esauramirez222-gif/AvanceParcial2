@@ -1,0 +1,6 @@
+/* Estilos exclusivos de este componente (not-found.page.css).
+   Los colores (--ts-*) y clases compartidas vienen de src/styles.css. */
+
+.ts-404 {
+  color: var(--ts-primary);
+}

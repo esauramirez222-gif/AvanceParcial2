@@ -1,0 +1,118 @@
+<div class="ts-page-header">
+  <div class="container">
+    <h1 class="h3 mb-1">Mi cuenta</h1>
+    <p class="mb-0">Consulta y actualiza tu información personal y de envío.</p>
+  </div>
+</div>
+
+<div class="container my-4">
+  <div class="row g-4">
+    <aside class="col-lg-3">
+      <div class="card ts-card text-center">
+        <div class="card-body">
+          <span class="ts-avatar">{{ usuario?.nombre?.charAt(0) }}{{ usuario?.apellidos?.charAt(0) }}</span>
+          <h2 class="h6 mt-3 mb-0">{{ usuario?.nombre }} {{ usuario?.apellidos }}</h2>
+          <p class="small text-body-secondary mb-2">{{ usuario?.correo }}</p>
+          <span class="badge ts-badge-soft">Cliente</span>
+          <p class="small text-body-secondary mt-3 mb-0">Miembro desde {{ usuario?.fechaRegistro | date: 'MMMM y' }}</p>
+        </div>
+      </div>
+    </aside>
+
+    <section class="col-lg-9">
+      <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+        <div class="card ts-card mb-4">
+          <div class="card-body">
+            <h2 class="h5 mb-3"><i class="bi bi-person"></i> Datos personales</h2>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input id="nombre" class="form-control" formControlName="nombre" [class.is-invalid]="invalido('nombre')" />
+                <div class="invalid-feedback">El nombre es obligatorio.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="apellidos" class="form-label">Apellidos</label>
+                <input id="apellidos" class="form-control" formControlName="apellidos" [class.is-invalid]="invalido('apellidos')" />
+                <div class="invalid-feedback">Los apellidos son obligatorios.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="correo" class="form-label">Correo electrónico</label>
+                <input id="correo" type="email" class="form-control" formControlName="correo" [class.is-invalid]="invalido('correo') || correoRepetido" />
+                <div class="invalid-feedback">
+                  @if (correoRepetido) { Ese correo ya pertenece a otra cuenta. } @else { Escribe un correo válido. }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card ts-card mb-4" formGroupName="direccion">
+          <div class="card-body">
+            <h2 class="h5 mb-3"><i class="bi bi-geo-alt"></i> Dirección de envío</h2>
+            <div class="row g-3">
+              <div class="col-md-8">
+                <label for="calle" class="form-label">Calle</label>
+                <input id="calle" class="form-control" formControlName="calle" [class.is-invalid]="invalido('direccion.calle')" />
+                <div class="invalid-feedback">Obligatorio.</div>
+              </div>
+              <div class="col-md-4">
+                <label for="numero" class="form-label">Número</label>
+                <input id="numero" class="form-control" formControlName="numero" [class.is-invalid]="invalido('direccion.numero')" />
+                <div class="invalid-feedback">Obligatorio.</div>
+              </div>
+              <div class="col-md-8">
+                <label for="colonia" class="form-label">Colonia</label>
+                <input id="colonia" class="form-control" formControlName="colonia" [class.is-invalid]="invalido('direccion.colonia')" />
+                <div class="invalid-feedback">Obligatorio.</div>
+              </div>
+              <div class="col-md-4">
+                <label for="codigoPostal" class="form-label">Código postal</label>
+                <input id="codigoPostal" class="form-control" formControlName="codigoPostal" maxlength="5" inputmode="numeric" [class.is-invalid]="invalido('direccion.codigoPostal')" />
+                <div class="invalid-feedback">Debe tener 5 dígitos.</div>
+              </div>
+              <div class="col-md-4">
+                <label for="ciudad" class="form-label">Ciudad</label>
+                <input id="ciudad" class="form-control" formControlName="ciudad" [class.is-invalid]="invalido('direccion.ciudad')" />
+                <div class="invalid-feedback">Obligatorio.</div>
+              </div>
+              <div class="col-md-4">
+                <label for="estado" class="form-label">Estado</label>
+                <input id="estado" class="form-control" formControlName="estado" [class.is-invalid]="invalido('direccion.estado')" />
+                <div class="invalid-feedback">Obligatorio.</div>
+              </div>
+              <div class="col-md-4">
+                <label for="pais" class="form-label">País</label>
+                <input id="pais" class="form-control" formControlName="pais" [class.is-invalid]="invalido('direccion.pais')" />
+                <div class="invalid-feedback">Obligatorio.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card ts-card mb-4" formGroupName="seguridad">
+          <div class="card-body">
+            <h2 class="h5 mb-1"><i class="bi bi-key"></i> Cambiar contraseña</h2>
+            <p class="small text-body-secondary">Déjalo vacío si no quieres cambiarla.</p>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="nuevaContrasena" class="form-label">Nueva contraseña</label>
+                <input id="nuevaContrasena" type="password" class="form-control" formControlName="nuevaContrasena" autocomplete="new-password" [class.is-invalid]="errorSeguridad" />
+              </div>
+              <div class="col-md-6">
+                <label for="confirmacionNueva" class="form-label">Confirmar nueva contraseña</label>
+                <input id="confirmacionNueva" type="password" class="form-control" formControlName="confirmacion" autocomplete="new-password" [class.is-invalid]="errorSeguridad" />
+              </div>
+            </div>
+            @if (errorSeguridad) {
+              <div class="text-danger small mt-2">{{ errorSeguridad }}</div>
+            }
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-ts px-4"><i class="bi bi-check2"></i> Guardar cambios</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>

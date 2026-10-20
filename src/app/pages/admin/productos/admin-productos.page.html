@@ -1,0 +1,156 @@
+<div class="container my-4">
+  <app-admin-nav />
+
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <div>
+      <h1 class="h3 mb-0">Gestión de catálogo</h1>
+      <p class="text-body-secondary small mb-0">Añade, edita o elimina los productos de la tienda.</p>
+    </div>
+    @if (!mostrarFormulario) {
+      <button class="btn btn-ts" (click)="nuevo()"><i class="bi bi-plus-lg"></i> Nuevo producto</button>
+    }
+  </div>
+
+  <!-- Indicadores -->
+  <div class="row g-3 mb-4">
+    <div class="col-4"><div class="ts-stat"><span>{{ totalProductos }}</span>Productos</div></div>
+    <div class="col-4"><div class="ts-stat"><span>{{ sinStock }}</span>Sin stock</div></div>
+    <div class="col-4"><div class="ts-stat"><span>{{ noDisponibles }}</span>No disponibles</div></div>
+  </div>
+
+  <!-- Formulario para añadir / editar -->
+  @if (mostrarFormulario) {
+    <form [formGroup]="form" (ngSubmit)="guardar()" class="card ts-card mb-4" novalidate>
+      <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+        <h2 class="h5 mb-0">{{ idEditando ? 'Editar producto' : 'Añadir producto' }}</h2>
+        <button type="button" class="btn-close" aria-label="Cerrar" (click)="cancelar()"></button>
+      </div>
+      <div class="card-body">
+        <div class="row g-4">
+          <div class="col-lg-8">
+            <div class="row g-3">
+              <div class="col-12">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input id="nombre" class="form-control" formControlName="nombre" [class.is-invalid]="invalido('nombre')" />
+                <div class="invalid-feedback">Escribe un nombre (mínimo 3 caracteres).</div>
+              </div>
+              <div class="col-md-4">
+                <label for="precio" class="form-label">Precio (MXN)</label>
+                <div class="input-group has-validation">
+                  <span class="input-group-text">$</span>
+                  <input id="precio" type="number" min="1" class="form-control" formControlName="precio" [class.is-invalid]="invalido('precio')" />
+                  <div class="invalid-feedback">Debe ser mayor a 0.</div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="stock" class="form-label">Stock</label>
+                <input id="stock" type="number" min="0" class="form-control" formControlName="stock" [class.is-invalid]="invalido('stock')" />
+                <div class="invalid-feedback">No puede ser negativo.</div>
+              </div>
+              <div class="col-md-4">
+                <label for="categoria" class="form-label">Categoría</label>
+                <select id="categoria" class="form-select" formControlName="categoria" [class.is-invalid]="invalido('categoria')">
+                  <option value="" disabled>Selecciona…</option>
+                  @for (c of categorias; track c._id) {
+                    <option [value]="c._id">{{ c.nombre }}</option>
+                  }
+                </select>
+                <div class="invalid-feedback">Elige una categoría.</div>
+              </div>
+              <div class="col-12">
+                <label for="imagen" class="form-label">Imagen (URL)</label>
+                <input id="imagen" class="form-control" formControlName="imagen" placeholder="https://… o img/productos/archivo.svg" [class.is-invalid]="invalido('imagen')" />
+                <div class="invalid-feedback">La imagen es obligatoria.</div>
+              </div>
+              <div class="col-12">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea id="descripcion" rows="3" class="form-control" formControlName="descripcion" [class.is-invalid]="invalido('descripcion')"></textarea>
+                <div class="invalid-feedback">Escribe al menos 10 caracteres.</div>
+              </div>
+              <div class="col-12">
+                <div class="form-check form-switch">
+                  <input id="disponibilidad" class="form-check-input" type="checkbox" role="switch" formControlName="disponibilidad" />
+                  <label class="form-check-label" for="disponibilidad">Disponible para la venta</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <span class="form-label d-block">Vista previa</span>
+            <div class="ts-preview">
+              @if (imagenPrevia) {
+                <img [src]="imagenPrevia" alt="Vista previa del producto" />
+              } @else {
+                <i class="bi bi-image"></i>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer bg-transparent d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-light" (click)="cancelar()">Cancelar</button>
+        <button type="submit" class="btn btn-ts">{{ idEditando ? 'Guardar cambios' : 'Añadir producto' }}</button>
+      </div>
+    </form>
+  }
+
+  <!-- Lista de productos -->
+  <div class="card ts-card">
+    <div class="card-body pb-0">
+      <div class="input-group ts-search">
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+        <input type="search" name="busqueda" class="form-control" placeholder="Buscar producto" [(ngModel)]="busqueda" />
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-middle ts-table mb-0">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Categoría</th>
+            <th class="text-end">Precio</th>
+            <th class="text-center">Stock</th>
+            <th>Estado</th>
+            <th class="text-end">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of productos; track p._id) {
+            <tr [class.table-active]="idEditando === p._id">
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  <img [src]="p.imagen" [alt]="p.nombre" class="ts-thumb ts-thumb-sm" />
+                  <span class="fw-semibold">{{ p.nombre }}</span>
+                </div>
+              </td>
+              <td>{{ nombreCategoria(p.categoria) }}</td>
+              <td class="text-end">{{ p.precio | currency: 'MXN' : 'symbol-narrow' }}</td>
+              <td class="text-center" [class.text-danger]="p.stock === 0">{{ p.stock }}</td>
+              <td>
+                @if (p.disponibilidad) {
+                  <span class="badge bg-success-subtle text-success-emphasis">Disponible</span>
+                } @else {
+                  <span class="badge text-bg-secondary">No disponible</span>
+                }
+              </td>
+              <td class="text-end text-nowrap">
+                <button class="btn btn-sm btn-light" (click)="editar(p)" title="Editar"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-sm btn-light text-danger ms-1" (click)="pedirEliminar(p)" title="Eliminar"><i class="bi bi-trash"></i></button>
+              </td>
+            </tr>
+          } @empty {
+            <tr><td colspan="6" class="text-center text-body-secondary py-4">No hay productos que coincidan.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<app-confirm-dialog
+  [visible]="productoPorEliminar !== null"
+  titulo="Eliminar producto"
+  [mensaje]="'¿Eliminar «' + productoPorEliminar?.nombre + '» del catálogo? También se borrarán sus reseñas. Esta acción no se puede deshacer.'"
+  textoConfirmar="Eliminar"
+  (confirmar)="confirmarEliminar()"
+  (cancelar)="productoPorEliminar = null" />

@@ -1,0 +1,57 @@
+<div class="container ts-auth">
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-7">
+      <div class="card ts-card shadow-sm">
+        <div class="card-body p-4 p-md-5">
+          <div class="text-center mb-4">
+            <span class="ts-auth-icon"><i class="bi bi-person-plus"></i></span>
+            <h1 class="h4 mt-3 mb-1">Crear cuenta</h1>
+            <p class="text-body-secondary small mb-0">Regístrate para hacer pedidos y dejar reseñas.</p>
+          </div>
+
+          <form [formGroup]="form" (ngSubmit)="registrar()" novalidate>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input id="nombre" type="text" class="form-control" formControlName="nombre" [class.is-invalid]="invalido('nombre')" autocomplete="given-name" />
+                <div class="invalid-feedback">Escribe tu nombre.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="apellidos" class="form-label">Apellidos</label>
+                <input id="apellidos" type="text" class="form-control" formControlName="apellidos" [class.is-invalid]="invalido('apellidos')" autocomplete="family-name" />
+                <div class="invalid-feedback">Escribe tus apellidos.</div>
+              </div>
+              <div class="col-12">
+                <label for="correo" class="form-label">Correo electrónico</label>
+                <input id="correo" type="email" class="form-control" formControlName="correo" [class.is-invalid]="invalido('correo') || correoRepetido" autocomplete="email" />
+                <div class="invalid-feedback">
+                  @if (correoRepetido) { Ya existe una cuenta con este correo. } @else { Escribe un correo válido. }
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="contrasena" class="form-label">Contraseña</label>
+                <input id="contrasena" type="password" class="form-control" formControlName="contrasena" [class.is-invalid]="invalido('contrasena')" autocomplete="new-password" />
+                <div class="form-text" [class.d-none]="invalido('contrasena')">Mínimo 8 caracteres.</div>
+                <div class="invalid-feedback">La contraseña debe tener 8 caracteres o más.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="confirmacion" class="form-label">Confirmar contraseña</label>
+                <input id="confirmacion" type="password" class="form-control" formControlName="confirmacion"
+                  [class.is-invalid]="invalido('confirmacion') || confirmacionNoCoincide" autocomplete="new-password" />
+                <div class="invalid-feedback">
+                  @if (confirmacionNoCoincide) { Las contraseñas no coinciden. } @else { Confirma tu contraseña. }
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-ts w-100 py-2 mt-4">Registrarme</button>
+          </form>
+
+          <p class="text-center small text-body-secondary mt-4 mb-0">
+            ¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

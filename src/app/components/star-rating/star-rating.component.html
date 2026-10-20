@@ -1,0 +1,11 @@
+<span class="ts-stars" [class.fs-4]="tamano === 'lg'" [attr.aria-label]="calificacion + ' de 5 estrellas'">
+  @for (posicion of estrellas; track posicion) {
+    @if (editable) {
+      <button type="button" class="btn btn-link p-0 me-1 ts-star-btn" (click)="seleccionar(posicion)" [attr.aria-label]="posicion + ' estrellas'">
+        <i class="bi" [class]="icono(posicion)"></i>
+      </button>
+    } @else {
+      <i class="bi" [class]="icono(posicion)"></i>
+    }
+  }
+</span>

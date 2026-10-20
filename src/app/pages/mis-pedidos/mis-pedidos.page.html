@@ -1,0 +1,55 @@
+<div class="ts-page-header">
+  <div class="container">
+    <h1 class="h3 mb-1">Mis pedidos</h1>
+    <p class="mb-0">Consulta el historial y el estado de tus compras.</p>
+  </div>
+</div>
+
+<div class="container my-4">
+  @for (pedido of pedidos; track pedido._id) {
+    <article class="card ts-card mb-3">
+      <div class="card-header ts-order-header">
+        <div><span class="ts-label">Pedido</span><strong>#{{ pedido._id }}</strong></div>
+        <div><span class="ts-label">Fecha</span>{{ pedido.fecha | date: 'd MMM y, HH:mm' }}</div>
+        <div><span class="ts-label">Total</span>{{ pedido.total | currency: 'MXN' : 'symbol-narrow' }}</div>
+        <div class="ms-md-auto">
+          <span class="badge ts-status" [ngClass]="'ts-status-' + pedido.estado">{{ pedido.estado }}</span>
+        </div>
+      </div>
+      <ul class="list-group list-group-flush">
+        @for (item of pedido.productos; track item.producto) {
+          <li class="list-group-item ts-cart-item">
+            @if (producto(item.producto); as p) {
+              <img [src]="p.imagen" [alt]="p.nombre" class="ts-thumb ts-thumb-sm" />
+              <div class="flex-grow-1">
+                <a [routerLink]="['/producto', p._id]" class="text-reset fw-semibold text-decoration-none">{{ p.nombre }}</a>
+                <div class="small text-body-secondary">Cantidad: {{ item.cantidad }}</div>
+              </div>
+              @if (yaResene(p._id)) {
+                <span class="small text-success"><i class="bi bi-check2"></i> Reseñado</span>
+              } @else {
+                <a [routerLink]="['/producto', p._id]" fragment="resenas" class="btn btn-sm btn-outline-secondary"><i class="bi bi-star"></i> Escribir reseña</a>
+              }
+            } @else {
+              <div class="flex-grow-1 text-body-secondary small">Producto que ya no está en el catálogo · Cantidad: {{ item.cantidad }}</div>
+            }
+            <div class="fw-semibold ms-3">{{ item.subtotal | currency: 'MXN' : 'symbol-narrow' }}</div>
+          </li>
+        }
+      </ul>
+      <div class="card-footer bg-transparent small text-body-secondary d-flex flex-wrap gap-3 justify-content-end">
+        <span>{{ totalPiezas(pedido) }} pieza(s)</span>
+        <span>Subtotal: {{ pedido.subtotal | currency: 'MXN' : 'symbol-narrow' }}</span>
+        <span>Envío: {{ pedido.costoEnvio === 0 ? 'Gratis' : (pedido.costoEnvio | currency: 'MXN' : 'symbol-narrow') }}</span>
+        <strong class="text-body">Total: {{ pedido.total | currency: 'MXN' : 'symbol-narrow' }}</strong>
+      </div>
+    </article>
+  } @empty {
+    <div class="ts-empty">
+      <i class="bi bi-receipt"></i>
+      <h2 class="h5">Aún no tienes pedidos</h2>
+      <p>Cuando finalices una compra aparecerá aquí.</p>
+      <a routerLink="/catalogo" class="btn btn-ts">Explorar catálogo</a>
+    </div>
+  }
+</div>

@@ -1,0 +1,63 @@
+/* Estilos exclusivos de este componente (app.css).
+   Los colores (--ts-*) y clases compartidas vienen de src/styles.css. */
+
+.ts-toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  max-width: calc(100vw - 3rem);
+  padding: 0.9rem 1rem 1rem 1.1rem;
+  overflow: hidden;
+  border-radius: 16px;
+  background: rgba(6, 10, 26, 0.92);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.45);
+  animation: ts-entrada 0.45s var(--ts-ease);
+}
+
+.ts-toast > i {
+  font-size: 1.25rem;
+}
+
+/* Barra que muestra el tiempo que queda antes de cerrarse (3.5 s) */
+.ts-toast::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  background: currentColor;
+  transform-origin: left;
+  animation: ts-tiempo 3.5s linear forwards;
+}
+
+.ts-toast-exito > i, .ts-toast-exito::after { color: #4ade80; }
+
+.ts-toast-error > i, .ts-toast-error::after { color: #f87171; }
+
+.ts-toast-info > i, .ts-toast-info::after { color: var(--ts-accent); }
+
+@keyframes ts-entrada {
+  from { opacity: 0; transform: translateX(40px) scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes ts-tiempo {
+  to { transform: scaleX(0); }
+}
+
+@media (max-width: 575.98px) {
+  .ts-toast {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    max-width: none;
+  }
+}

@@ -1,0 +1,33 @@
+/* Estilos exclusivos de este componente (catalogo.page.css).
+   Los colores (--ts-*) y clases compartidas vienen de src/styles.css. */
+
+@media (min-width: 992px) {
+  .ts-filters {
+    position: sticky;
+    top: 96px;
+  }
+}
+
+.ts-filter-list .list-group-item {
+  border: 0;
+  border-radius: 10px;
+  margin-bottom: 2px;
+  padding: 0.55rem 0.8rem;
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s, transform 0.2s var(--ts-ease);
+}
+
+.ts-filter-list .list-group-item:hover {
+  transform: translateX(3px);
+}
+
+.ts-filter-list .list-group-item.active {
+  background: var(--ts-gradient-btn);
+  color: #fff;
+  box-shadow: 0 8px 18px -10px rgba(var(--ts-primary-rgb), 0.8);
+}
+
+.ts-filter-list .list-group-item.active .badge {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important;
+}

@@ -1,0 +1,40 @@
+/* Estilos exclusivos de este componente (admin-productos.page.css).
+   Los colores (--ts-*) y clases compartidas vienen de src/styles.css. */
+
+.ts-stat {
+  background: #fff;
+  border: 1px solid var(--ts-border);
+  border-radius: var(--ts-radius);
+  padding: 0.9rem 1rem;
+  color: var(--ts-muted);
+  font-size: 0.85rem;
+}
+
+.ts-stat span {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--ts-navy);
+}
+
+.ts-search {
+  max-width: 320px;
+}
+
+.ts-preview {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 1px dashed var(--ts-border);
+  border-radius: var(--ts-radius);
+  background: #f8fafc;
+  overflow: hidden;
+  font-size: 3rem;
+  color: #cbd5e1;
+}
+
+.ts-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

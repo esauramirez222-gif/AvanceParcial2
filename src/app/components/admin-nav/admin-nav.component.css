@@ -1,0 +1,31 @@
+/* Estilos exclusivos de este componente (admin-nav.component.css).
+   Los colores (--ts-*) y clases compartidas vienen de src/styles.css. */
+
+.ts-admin-nav {
+  display: inline-flex;
+  max-width: 100%;
+  gap: 0.25rem;
+  padding: 0.35rem;
+  background: #fff;
+  border: 1px solid var(--ts-border);
+  border-radius: 999px;
+  box-shadow: var(--ts-shadow-sm);
+}
+
+.ts-admin-nav .nav-link {
+  border-radius: 999px;
+  color: var(--ts-muted);
+  font-weight: 600;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.ts-admin-nav .nav-link:hover {
+  color: var(--ts-text);
+  background: #f1f3fa;
+}
+
+.ts-admin-nav .nav-link.active {
+  background: var(--ts-gradient-btn);
+  color: #fff;
+  box-shadow: 0 8px 18px -10px rgba(var(--ts-primary-rgb), 0.9);
+}

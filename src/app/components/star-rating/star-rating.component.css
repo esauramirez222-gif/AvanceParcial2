@@ -1,0 +1,13 @@
+/* Estilos exclusivos de este componente (star-rating.component.css).
+   Los colores (--ts-*) y clases compartidas vienen de src/styles.css. */
+
+.ts-stars {
+  color: #f59e0b;
+  white-space: nowrap;
+}
+
+.ts-star-btn {
+  color: #f59e0b;
+  line-height: 1;
+  text-decoration: none;
+}

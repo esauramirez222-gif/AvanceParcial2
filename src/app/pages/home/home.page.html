@@ -1,0 +1,138 @@
+<!-- Banner principal -->
+<section class="ts-aurora ts-hero">
+  <span class="ts-orb ts-orb-1" aria-hidden="true"></span>
+  <span class="ts-orb ts-orb-2" aria-hidden="true"></span>
+  <span class="ts-orb ts-orb-3" aria-hidden="true"></span>
+
+  <div class="container">
+    <div class="row align-items-center g-4 g-lg-5">
+      <div class="col-lg-6 ts-hero-copy">
+        <span class="ts-pill"><span class="ts-live-dot" aria-hidden="true"></span> Nuevos accesorios cada semana</span>
+        <h1 class="ts-hero-title mt-4 mb-3">
+          Todo lo que tu tecnología necesita, <span class="ts-gradient-text">en un solo lugar.</span>
+        </h1>
+        <p class="ts-hero-lead mb-4">Audífonos, cables, cargadores y periféricos seleccionados para durar. Compra fácil y califica lo que pruebas.</p>
+        <div class="d-flex flex-wrap gap-2">
+          <a routerLink="/catalogo" class="btn btn-ts-accent btn-lg px-4 rounded-pill">Ver catálogo <i class="bi bi-arrow-right"></i></a>
+          <!-- El segundo botón cambia según la sesión -->
+          @if (!estaAutenticado) {
+            <a routerLink="/registro" class="btn btn-ts-ghost btn-lg px-4 rounded-pill">Crear cuenta</a>
+          } @else if (esAdmin) {
+            <a routerLink="/admin" class="btn btn-ts-ghost btn-lg px-4 rounded-pill">Panel de administración</a>
+          } @else {
+            <a routerLink="/mis-pedidos" class="btn btn-ts-ghost btn-lg px-4 rounded-pill">Mis pedidos</a>
+          }
+        </div>
+
+        <!-- Cifras reales calculadas desde los servicios -->
+        <dl class="ts-hero-stats">
+          <div>
+            <dt>Productos</dt>
+            <dd><span [appCountUp]="totalProductos"></span></dd>
+          </div>
+          <div>
+            <dt>Categorías</dt>
+            <dd><span [appCountUp]="categorias.length"></span></dd>
+          </div>
+          <div>
+            <dt>Calificación promedio</dt>
+            <dd><i class="bi bi-star-fill" aria-hidden="true"></i> <span [appCountUp]="promedioGeneral" [decimales]="1"></span></dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Vitrina: productos destacados flotando -->
+      <div class="col-lg-6 d-none d-lg-block">
+        <div class="ts-showcase">
+          @for (p of vitrina; track p._id) {
+            <a class="ts-float-card" [routerLink]="['/producto', p._id]" [attr.aria-label]="p.nombre">
+              <img [src]="p.imagen" alt="" />
+              <span class="ts-float-info">
+                <span class="ts-float-name">{{ p.nombre }}</span>
+                <span class="ts-float-price">{{ p.precio | currency: 'MXN' : 'symbol-narrow' }}</span>
+              </span>
+            </a>
+          }
+          <span class="ts-float-chip ts-chip-a" aria-hidden="true"><i class="bi bi-truck"></i> Envío gratis desde ${{ envioGratisDesde }}</span>
+          <span class="ts-float-chip ts-chip-b" aria-hidden="true"><i class="bi bi-star-fill"></i> Reseñas reales</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cinta de categorías en movimiento (decorativa) -->
+  <div class="ts-marquee ts-hero-marquee" aria-hidden="true">
+    <div class="ts-marquee-track">
+      @for (vuelta of [1, 2]; track vuelta) {
+        @for (c of categorias; track c._id) {
+          <span class="ts-marquee-item"><i class="bi" [class]="iconoDe(c._id)"></i> {{ c.nombre }}</span>
+          <span class="ts-marquee-sep">✦</span>
+        }
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Categorías -->
+<section class="container ts-section">
+  <div class="d-flex justify-content-between align-items-end gap-3 mb-4" appReveal>
+    <div>
+      <span class="ts-eyebrow">Categorías</span>
+      <h2 class="ts-section-title mt-1">Explora por categoría</h2>
+    </div>
+    <a routerLink="/catalogo" class="ts-link-arrow small">Ver todo <i class="bi bi-arrow-right"></i></a>
+  </div>
+  <div class="row g-3 ts-categories">
+    @for (categoria of categorias; track categoria._id; let i = $index) {
+      <div class="col-6 col-md-4 col-lg" [appReveal]="i * 70">
+        <a class="ts-category-tile" routerLink="/catalogo" [queryParams]="{ categoria: categoria._id }">
+          <span class="ts-category-icon"><i class="bi" [class]="iconoDe(categoria._id)"></i></span>
+          <span class="ts-category-name">{{ categoria.nombre }}</span>
+          <span class="ts-category-count">{{ contarEnCategoria(categoria._id) }} producto(s)</span>
+          <i class="bi bi-arrow-up-right ts-category-arrow" aria-hidden="true"></i>
+        </a>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Galería de productos destacados -->
+<section class="container ts-section pt-0">
+  <div class="d-flex justify-content-between align-items-end gap-3 mb-4" appReveal>
+    <div>
+      <span class="ts-eyebrow">Lo más valorado</span>
+      <h2 class="ts-section-title mt-1">Productos destacados</h2>
+    </div>
+    <a routerLink="/catalogo" class="ts-link-arrow small">Ir al catálogo <i class="bi bi-arrow-right"></i></a>
+  </div>
+  <div class="row g-4">
+    @for (producto of destacados; track producto._id; let i = $index) {
+      <div class="col-sm-6 col-lg-3" [appReveal]="i * 90">
+        <app-product-card
+          [producto]="producto"
+          [categoria]="nombreCategoria(producto.categoria)"
+          [promedio]="promedio(producto._id)"
+          [totalResenas]="totalResenas(producto._id)" />
+      </div>
+    } @empty {
+      <p class="text-body-secondary">Aún no hay productos destacados.</p>
+    }
+  </div>
+</section>
+
+<!-- Llamado a la acción final -->
+<section class="container pb-5 mb-lg-4">
+  <div class="ts-aurora ts-cta" appReveal>
+    <span class="ts-orb ts-orb-1" aria-hidden="true"></span>
+    <span class="ts-orb ts-orb-2" aria-hidden="true"></span>
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <h2 class="ts-section-title text-white mb-2">¿Listo para mejorar tu setup?</h2>
+        <p class="mb-0 ts-cta-text">Encuentra el accesorio ideal y recíbelo en casa. Envío gratis en compras desde ${{ envioGratisDesde }}.</p>
+      </div>
+      <div class="col-lg-4 text-lg-end">
+        <a routerLink="/catalogo" class="btn btn-ts-accent btn-lg rounded-pill px-4">Comprar ahora <i class="bi bi-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,20 @@
+/* Estilos exclusivos de este componente (mis-pedidos.page.css).
+   Los colores (--ts-*) y clases compartidas vienen de src/styles.css. */
+
+.ts-order-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  align-items: center;
+  background: #f8fafc;
+  border-top-left-radius: var(--ts-radius) !important;
+  border-top-right-radius: var(--ts-radius) !important;
+}
+
+.ts-label {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ts-muted);
+}

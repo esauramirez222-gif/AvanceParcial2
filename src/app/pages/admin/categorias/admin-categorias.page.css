@@ -1,0 +1,13 @@
+/* Estilos exclusivos de este componente (admin-categorias.page.css).
+   Los colores (--ts-*) y clases compartidas vienen de src/styles.css. */
+
+.ts-icon-circle {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(14, 116, 144, 0.1);
+  color: var(--ts-primary);
+}

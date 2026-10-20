@@ -1,0 +1,151 @@
+/* Estilos exclusivos de este componente (home.page.css).
+   Los colores (--ts-*), la "aurora", la cinta y las animaciones vienen de src/styles.css. */
+
+.ts-hero {
+  padding: 4.5rem 0 7.5rem;
+  /* El oscuro pasa a lavanda y se funde con el fondo de la página, sin corte brusco */
+  background: linear-gradient(180deg, var(--ts-ink) calc(100% - 260px), #1e2556 calc(100% - 170px), #8d93c6 calc(100% - 70px), var(--ts-bg) 100%);
+}
+
+/* Capa que difumina los brillos de color en la orilla inferior */
+.ts-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 200px;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(228, 231, 242, 0), var(--ts-bg));
+  pointer-events: none;
+}
+
+.ts-hero-title {
+  font-size: clamp(2.4rem, 1.6rem + 3.2vw, 4.1rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+}
+
+.ts-hero-copy > * { animation: ts-rise 0.7s var(--ts-ease) both; }
+.ts-hero-copy > :nth-child(2) { animation-delay: 0.08s; }
+.ts-hero-copy > :nth-child(3) { animation-delay: 0.16s; }
+.ts-hero-copy > :nth-child(4) { animation-delay: 0.24s; }
+.ts-hero-copy > :nth-child(5) { animation-delay: 0.32s; }
+
+.ts-hero-lead {
+  max-width: 34rem;
+  font-size: 1.15rem;
+  color: rgba(226, 232, 255, 0.74);
+}
+
+.ts-hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2.5rem;
+  margin: 2.5rem 0 0;
+}
+
+.ts-hero-stats dt {
+  order: 2;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(226, 232, 255, 0.6);
+}
+
+.ts-hero-stats div { display: flex; flex-direction: column; }
+
+.ts-hero-stats dd {
+  margin: 0;
+  font-family: var(--ts-font-display);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.ts-hero-stats dd i { font-size: 1.2rem; color: #fbbf24; vertical-align: 0.2em; }
+
+/* Vitrina con tarjetas flotantes */
+.ts-showcase { position: relative; height: 470px; }
+
+.ts-float-card {
+  --r: 0deg;
+  position: absolute;
+  width: 210px;
+  padding: 10px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6);
+  color: #fff;
+  text-decoration: none;
+  animation: ts-float 7s ease-in-out infinite;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.ts-float-card:hover {
+  z-index: 3;
+  animation-play-state: paused;
+  border-color: rgba(34, 211, 238, 0.6);
+  box-shadow: 0 30px 70px -20px rgba(34, 211, 238, 0.45);
+}
+
+.ts-float-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 14px; }
+
+.ts-float-card:nth-child(1) { --r: -7deg; top: 2%; left: 4%; }
+.ts-float-card:nth-child(2) { --r: 5deg; top: 10%; right: 2%; width: 230px; animation-delay: -2.3s; z-index: 2; }
+.ts-float-card:nth-child(3) { --r: -2deg; bottom: 0; left: 30%; animation-delay: -4.6s; }
+
+@keyframes ts-float {
+  0%, 100% { transform: translateY(0) rotate(var(--r)); }
+  50% { transform: translateY(-16px) rotate(var(--r)); }
+}
+
+.ts-float-info { display: flex; justify-content: space-between; gap: 0.5rem; padding: 0.6rem 0.25rem 0.15rem; font-size: 0.8rem; }
+.ts-float-name { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: rgba(226, 232, 255, 0.85); }
+.ts-float-price { font-weight: 700; color: var(--ts-accent); white-space: nowrap; }
+
+.ts-float-chip {
+  position: absolute;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ts-text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.5);
+  animation: ts-float 6s ease-in-out infinite;
+}
+
+.ts-float-chip i { color: var(--ts-primary); }
+.ts-chip-a { top: 54%; left: -2%; animation-delay: -1s; }
+.ts-chip-b { bottom: 12%; right: 0; animation-delay: -3.5s; }
+.ts-chip-b i { color: #f59e0b; }
+
+/* Cinta de categorías */
+.ts-hero-marquee {
+  margin-top: 3.5rem;
+  padding: 1.1rem 0;
+}
+
+.ts-marquee-item, .ts-marquee-sep {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0 1.4rem;
+  font-family: var(--ts-font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(226, 232, 255, 0.7);
+  white-space: nowrap;
+}
+
+.ts-marquee-sep { padding: 0; color: var(--ts-accent); font-size: 0.8rem; }
+
+.ts-section { padding-block: 4.5rem; }
+
+/* CTA final */
+.ts-cta { border-radius: 28px; padding: 3rem clamp(1.5rem, 4vw, 3.5rem); }
+.ts-cta-text { color: rgba(226, 232, 255, 0.74); }

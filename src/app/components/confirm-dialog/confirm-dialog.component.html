@@ -1,0 +1,26 @@
+@if (visible) {
+  <div class="modal d-block" tabindex="-1" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title">
+            <i class="bi me-1" [class]="peligro ? 'bi-exclamation-triangle text-danger' : 'bi-question-circle text-primary'"></i>
+            {{ titulo }}
+          </h5>
+          <button type="button" class="btn-close" aria-label="Cerrar" (click)="onCancelar()"></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-0">{{ mensaje }}</p>
+          <ng-content></ng-content>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-light" (click)="onCancelar()">Cancelar</button>
+          <button type="button" class="btn" [ngClass]="peligro ? 'btn-danger' : 'btn-ts'" (click)="onConfirmar()">
+            {{ textoConfirmar }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop show"></div>
+}

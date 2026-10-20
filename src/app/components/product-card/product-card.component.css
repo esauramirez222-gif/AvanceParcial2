@@ -1,0 +1,130 @@
+/* Estilos exclusivos de este componente (product-card.component.css).
+   Los colores (--ts-*) y clases compartidas vienen de src/styles.css. */
+
+.ts-product-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--ts-border);
+  border-radius: var(--ts-radius);
+  overflow: hidden;
+  box-shadow: var(--ts-shadow-sm);
+  transition: transform 0.35s var(--ts-ease), box-shadow 0.35s var(--ts-ease), border-color 0.35s;
+}
+
+.ts-product-card:hover,
+.ts-product-card:focus-within {
+  transform: translateY(-6px);
+  border-color: rgba(var(--ts-primary-rgb), 0.35);
+  box-shadow: var(--ts-shadow-lg);
+}
+
+.ts-product-img {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 40%, #eef2ff, #e6ecf7);
+}
+
+.ts-product-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ts-ease);
+}
+
+.ts-product-card:hover .ts-product-img img {
+  transform: scale(1.07);
+}
+
+.ts-product-card-off .ts-product-img img {
+  filter: grayscale(0.7);
+  opacity: 0.75;
+}
+
+.ts-badges {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+}
+
+.ts-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.ts-tag-off {
+  background: rgba(15, 23, 42, 0.78);
+  color: #fff;
+}
+
+.ts-tag-top {
+  background: var(--ts-ink);
+  color: #fde68a;
+}
+
+/* Pastilla "Ver detalle" que sube al pasar el cursor */
+.ts-quick {
+  position: absolute;
+  left: 50%;
+  bottom: 0.85rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--ts-text);
+  font-size: 0.8rem;
+  font-weight: 600;
+  box-shadow: 0 8px 20px -8px rgba(15, 23, 42, 0.35);
+  opacity: 0;
+  transform: translate(-50%, 12px);
+  transition: opacity 0.3s, transform 0.35s var(--ts-ease);
+}
+
+.ts-product-card:hover .ts-quick {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.ts-product-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 1.1rem 1.15rem 1.2rem;
+}
+
+.ts-product-name {
+  font-size: 1rem;
+  line-height: 1.35;
+  margin: 0.3rem 0 0.35rem;
+}
+
+.ts-product-name a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* El foco de teclado se dibuja sobre toda la tarjeta */
+.ts-product-name a:focus-visible {
+  outline: none;
+}
+
+.ts-product-card:has(a:focus-visible) {
+  outline: 3px solid rgba(var(--ts-primary-rgb), 0.55);
+  outline-offset: 2px;
+}
+
+.ts-stock {
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ts-stock-ok { color: #15803d; }
+
+.ts-stock-low { color: #b45309; }

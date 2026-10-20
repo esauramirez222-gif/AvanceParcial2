@@ -1,0 +1,6 @@
+/* Estilos exclusivos de este componente (admin-resenas.page.css).
+   Los colores (--ts-*) y clases compartidas vienen de src/styles.css. */
+
+.ts-star-inline {
+  color: #f59e0b;
+}

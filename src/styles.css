@@ -1,0 +1,881 @@
+/* =========================================================
+   TecnoStore - estilos globales
+   Bootstrap y Bootstrap Icons se cargan desde angular.json;
+   aquí van la paleta de colores, la tipografía, las animaciones
+   y las clases que usan VARIAS pantallas.
+   Lo que usa una sola pantalla está en el .css de su componente.
+   ========================================================= */
+
+:root {
+  /* Paleta "eléctrica": tinta oscura + degradado cian → índigo → violeta */
+  --ts-ink: #060a1a;
+  --ts-navy: #0b1230;
+  --ts-navy-2: #141c45;
+  --ts-primary: #4f46e5;
+  --ts-primary-hover: #4338ca;
+  --ts-primary-rgb: 79, 70, 229;
+  --ts-accent: #22d3ee;
+  --ts-accent-hover: #67e8f9;
+  --ts-violet: #a855f7;
+  --ts-gradient: linear-gradient(120deg, #22d3ee 0%, #6366f1 50%, #a855f7 100%);
+  --ts-gradient-btn: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  --ts-bg: #e4e7f2;
+  --ts-surface: #fff;
+  --ts-border: #e4e7f1;
+  --ts-muted: #5b6478;
+  --ts-text: #0f172a;
+
+  --ts-radius: 18px;
+  --ts-radius-sm: 12px;
+  --ts-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04), 0 2px 8px rgba(15, 23, 42, 0.04);
+  --ts-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.18);
+  --ts-shadow-lg: 0 24px 60px -20px rgba(var(--ts-primary-rgb), 0.35);
+  --ts-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --ts-font-display: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ts-font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  --bs-body-bg: var(--ts-bg);
+  --bs-body-color: var(--ts-text);
+  --bs-body-font-family: var(--ts-font-body);
+  --bs-secondary-color: var(--ts-muted);
+  --bs-link-color: var(--ts-primary);
+  --bs-link-color-rgb: 79, 70, 229;
+  --bs-link-hover-color: var(--ts-primary-hover);
+  --bs-link-hover-color-rgb: 67, 56, 202;
+  --bs-border-color: var(--ts-border);
+  --bs-border-radius: 12px;
+  --bs-border-radius-sm: 8px;
+  --bs-border-radius-lg: 14px;
+  --bs-font-sans-serif: var(--ts-font-body);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--ts-bg);
+  font-family: var(--ts-font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.display-1, .display-2, .display-3, .display-4, .display-5, .display-6 {
+  font-family: var(--ts-font-display);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: rgba(var(--ts-primary-rgb), 0.18);
+}
+
+a,
+button,
+[role="button"],
+.list-group-item-action {
+  cursor: pointer;
+}
+
+/* Foco visible para navegación con teclado */
+:focus-visible {
+  outline: 3px solid rgba(var(--ts-primary-rgb), 0.55);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.form-control,
+.form-select {
+  background-color: #fff;
+  border-color: var(--ts-border);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:hover,
+.form-select:hover {
+  border-color: #c9cee0;
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+  border-color: var(--ts-primary);
+  box-shadow: 0 0 0 0.25rem rgba(var(--ts-primary-rgb), 0.15);
+}
+
+.form-check-input:checked {
+  background-color: var(--ts-primary);
+  border-color: var(--ts-primary);
+}
+
+.input-group-text {
+  background: #fff;
+  border-color: var(--ts-border);
+  color: var(--ts-muted);
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+/* ---------- Botones ---------- */
+
+.btn {
+  font-weight: 600;
+  transition: transform 0.15s var(--ts-ease), box-shadow 0.25s var(--ts-ease), background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn .bi-arrow-right,
+.btn .bi-arrow-up-right {
+  display: inline-block;
+  transition: transform 0.25s var(--ts-ease);
+}
+
+.btn:hover .bi-arrow-right {
+  transform: translateX(4px);
+}
+
+.btn:hover .bi-arrow-up-right {
+  transform: translate(2px, -2px);
+}
+
+.btn-ts {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--ts-primary);
+  --bs-btn-border-color: transparent;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--ts-primary-hover);
+  --bs-btn-hover-border-color: transparent;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--ts-primary-hover);
+  --bs-btn-active-border-color: transparent;
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #9ca3c9;
+  --bs-btn-focus-shadow-rgb: var(--ts-primary-rgb);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background-image: var(--ts-gradient-btn);
+  box-shadow: 0 6px 18px -6px rgba(var(--ts-primary-rgb), 0.6);
+}
+
+/* Destello que cruza el botón al pasar el cursor */
+.btn-ts::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.28) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.6s var(--ts-ease);
+}
+
+.btn-ts:hover {
+  box-shadow: 0 10px 26px -8px rgba(var(--ts-primary-rgb), 0.75);
+  transform: translateY(-1px);
+}
+
+.btn-ts:hover::after {
+  transform: translateX(120%);
+}
+
+.btn-ts-accent {
+  --bs-btn-color: var(--ts-ink);
+  --bs-btn-bg: var(--ts-accent);
+  --bs-btn-border-color: var(--ts-accent);
+  --bs-btn-hover-color: var(--ts-ink);
+  --bs-btn-hover-bg: var(--ts-accent-hover);
+  --bs-btn-hover-border-color: var(--ts-accent-hover);
+  --bs-btn-active-color: var(--ts-ink);
+  --bs-btn-active-bg: var(--ts-accent-hover);
+  --bs-btn-active-border-color: var(--ts-accent-hover);
+  box-shadow: 0 0 0 0 rgba(34, 211, 238, 0);
+}
+
+.btn-ts-accent:hover {
+  box-shadow: 0 8px 30px -6px rgba(34, 211, 238, 0.7);
+  transform: translateY(-1px);
+}
+
+.btn-light {
+  --bs-btn-bg: #eef0f7;
+  --bs-btn-border-color: #eef0f7;
+  --bs-btn-hover-bg: #e2e5f1;
+  --bs-btn-hover-border-color: #e2e5f1;
+}
+
+.btn-outline-light:hover {
+  color: var(--ts-ink);
+}
+
+/* Botón "fantasma" para fondos oscuros */
+.btn-ts-ghost {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: rgba(255, 255, 255, 0.06);
+  --bs-btn-border-color: rgba(255, 255, 255, 0.22);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: rgba(255, 255, 255, 0.14);
+  --bs-btn-hover-border-color: rgba(255, 255, 255, 0.4);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(8px);
+}
+
+/* ---------- Marca (header y footer) ---------- */
+
+.ts-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--ts-font-display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.ts-brand span {
+  color: var(--ts-accent);
+}
+
+.ts-brand-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--ts-gradient);
+  color: #fff;
+  font-size: 1.05rem;
+  box-shadow: 0 6px 20px -6px rgba(99, 102, 241, 0.8);
+  transition: transform 0.4s var(--ts-ease);
+}
+
+.ts-brand .ts-brand-mark {
+  color: #fff;
+}
+
+.ts-brand:hover .ts-brand-mark {
+  transform: rotate(-12deg) scale(1.08);
+}
+
+/* ---------- Fondos oscuros con "aurora" (hero y encabezados) ---------- */
+
+.ts-aurora {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--ts-ink);
+  color: #fff;
+}
+
+/* Retícula sutil que se desvanece hacia abajo */
+.ts-aurora::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 52px 52px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 0%, #000 35%, transparent 100%);
+}
+
+.ts-orb {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: ts-drift 18s ease-in-out infinite alternate;
+}
+
+.ts-orb-1 {
+  width: 560px;
+  height: 560px;
+  top: -220px;
+  right: -140px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.55), transparent 65%);
+}
+
+.ts-orb-2 {
+  width: 480px;
+  height: 480px;
+  bottom: -260px;
+  left: -160px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.4), transparent 65%);
+  animation-delay: -6s;
+}
+
+.ts-orb-3 {
+  width: 380px;
+  height: 380px;
+  top: 25%;
+  left: 40%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.32), transparent 65%);
+  animation-duration: 24s;
+  animation-delay: -12s;
+}
+
+@keyframes ts-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(50px, -40px) scale(1.1); }
+  100% { transform: translate(-40px, 30px) scale(0.95); }
+}
+
+/* Texto con degradado que "brilla" lentamente */
+.ts-gradient-text {
+  background: linear-gradient(90deg, #22d3ee, #818cf8, #c084fc, #22d3ee);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ts-shine 8s linear infinite;
+}
+
+@keyframes ts-shine {
+  to { background-position: 300% center; }
+}
+
+/* Etiqueta tipo "pill" con punto en vivo */
+.ts-pill {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.4rem 0.9rem 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #e0e7ff;
+  font-size: 0.85rem;
+  font-weight: 500;
+  backdrop-filter: blur(8px);
+}
+
+.ts-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  animation: ts-pulse 2s ease-out infinite;
+}
+
+@keyframes ts-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
+  100% { box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); }
+}
+
+/* Cinta en movimiento continuo */
+.ts-marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.ts-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: ts-marquee 38s linear infinite;
+}
+
+.ts-marquee:hover .ts-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes ts-marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* ---------- Aparición al hacer scroll (directiva appReveal) ---------- */
+
+.ts-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s var(--ts-ease) var(--ts-delay, 0ms),
+    transform 0.7s var(--ts-ease) var(--ts-delay, 0ms);
+}
+
+.ts-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Encabezado de páginas internas ---------- */
+
+.ts-page-header {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  /* El oscuro se funde con el fondo de la página en vez de cortarse de golpe */
+  background: linear-gradient(180deg, var(--ts-ink) calc(100% - 160px), #1e2556 calc(100% - 105px), #8d93c6 calc(100% - 40px), var(--ts-bg) 100%);
+  color: #fff;
+  padding: 3rem 0 6.5rem;
+}
+
+.ts-page-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 52px 52px;
+  -webkit-mask-image: linear-gradient(180deg, #000 30%, transparent 75%);
+  mask-image: linear-gradient(180deg, #000 30%, transparent 75%);
+}
+
+.ts-page-header::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 520px;
+  height: 520px;
+  top: -300px;
+  right: -80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.55), rgba(34, 211, 238, 0.15) 45%, transparent 68%);
+  animation: ts-drift 16s ease-in-out infinite alternate;
+}
+
+.ts-page-header h1 {
+  animation: ts-rise 0.6s var(--ts-ease) both;
+}
+
+.ts-page-header p {
+  color: rgba(226, 232, 255, 0.72);
+  animation: ts-rise 0.6s var(--ts-ease) 0.08s both;
+}
+
+@keyframes ts-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Tarjetas ---------- */
+
+.ts-card {
+  border: 1px solid var(--ts-border);
+  border-radius: var(--ts-radius);
+  background: var(--ts-surface);
+  box-shadow: var(--ts-shadow-sm);
+  overflow: hidden;
+}
+
+.list-group {
+  --bs-list-group-bg: #fff;
+  --bs-list-group-border-color: var(--ts-border);
+}
+
+.ts-card > .list-group:first-child .list-group-item:first-child {
+  border-top-left-radius: var(--ts-radius);
+  border-top-right-radius: var(--ts-radius);
+}
+
+.ts-sticky {
+  position: sticky;
+  top: 96px;
+}
+
+.ts-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ts-primary);
+}
+
+.ts-section-title {
+  font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.25rem);
+  margin-bottom: 0;
+}
+
+.ts-link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ts-link-arrow i {
+  transition: transform 0.25s var(--ts-ease);
+}
+
+.ts-link-arrow:hover i {
+  transform: translateX(4px);
+}
+
+.ts-price {
+  font-family: var(--ts-font-display);
+  font-weight: 700;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+  color: var(--ts-text);
+}
+
+.ts-badge-soft {
+  background: rgba(var(--ts-primary-rgb), 0.1);
+  color: var(--ts-primary);
+  font-weight: 600;
+}
+
+/* ---------- Carrito y pedidos ---------- */
+
+.ts-cart-item {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 1.1rem 1.25rem;
+  transition: background-color 0.2s;
+}
+
+.ts-cart-item:hover {
+  background: #fafbff;
+}
+
+.ts-cart-item > .flex-grow-1 {
+  min-width: 0;
+}
+
+.ts-cart-item > :last-child {
+  white-space: nowrap;
+}
+
+@media (max-width: 575.98px) {
+  .ts-cart-item {
+    gap: 0.75rem;
+    padding: 1rem;
+    align-items: flex-start;
+  }
+
+  .ts-cart-item .ts-thumb {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+.btn-link {
+  text-decoration: none;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+.ts-thumb {
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid var(--ts-border);
+}
+
+.ts-thumb-sm {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+}
+
+/* Estados del pedido */
+
+.ts-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  text-transform: capitalize;
+  font-weight: 600;
+  padding: 0.45em 0.85em;
+  border-radius: 999px;
+}
+
+.ts-status::before {
+  content: "";
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.ts-status-pendiente {
+  background-color: #fef3c7 !important;
+  color: #92400e !important;
+}
+
+.ts-status-enviado {
+  background-color: #e0e7ff !important;
+  color: #3730a3 !important;
+}
+
+.ts-status-entregado {
+  background-color: #dcfce7 !important;
+  color: #166534 !important;
+}
+
+/* ---------- Autenticación ---------- */
+
+.ts-auth {
+  position: relative;
+  padding: 4rem 0;
+}
+
+/* Brillo de color detrás del formulario */
+.ts-auth::before {
+  content: "";
+  position: absolute;
+  inset: 2rem 10% auto;
+  height: 380px;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(99, 102, 241, 0.22), transparent 55%),
+    radial-gradient(circle at 75% 30%, rgba(34, 211, 238, 0.2), transparent 50%);
+  filter: blur(10px);
+}
+
+.ts-auth .ts-card {
+  border-radius: 24px;
+  box-shadow: var(--ts-shadow-lg);
+  animation: ts-rise 0.6s var(--ts-ease) both;
+}
+
+.ts-auth-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  background: var(--ts-gradient);
+  color: #fff;
+  font-size: 1.6rem;
+  box-shadow: 0 12px 30px -10px rgba(99, 102, 241, 0.8);
+}
+
+/* ---------- Administración ---------- */
+
+.ts-table thead th {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ts-muted);
+  background: #f8f9fd;
+}
+
+.ts-table td,
+.ts-table th {
+  padding: 0.85rem 1rem;
+}
+
+.ts-table tbody tr {
+  transition: background-color 0.15s;
+}
+
+.ts-table tbody tr:hover > * {
+  --bs-table-bg-state: #f7f8ff;
+}
+
+/* ---------- Estados vacíos y ventanas modales ---------- */
+
+.ts-empty {
+  text-align: center;
+  padding: 3.5rem 1rem;
+  color: var(--ts-muted);
+}
+
+.ts-empty > i {
+  display: inline-grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  margin-bottom: 1rem;
+  border-radius: 24px;
+  background: rgba(var(--ts-primary-rgb), 0.08);
+  color: var(--ts-primary);
+  font-size: 2.3rem;
+  animation: ts-bob 3s ease-in-out infinite;
+}
+
+@keyframes ts-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.ts-empty h1,
+.ts-empty h2,
+.ts-empty h3 {
+  color: var(--bs-body-color);
+}
+
+.modal-content {
+  border-radius: 20px;
+  animation: ts-pop 0.25s var(--ts-ease) both;
+}
+
+@keyframes ts-pop {
+  from { opacity: 0; transform: scale(0.94) translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.modal-backdrop.show {
+  opacity: 1;
+  background: rgba(6, 10, 26, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.breadcrumb a {
+  text-decoration: none;
+}
+
+/* ---------- Transición entre pantallas (View Transitions API) ---------- */
+
+::view-transition-old(root) {
+  animation: ts-vt-out 0.18s ease-in both;
+}
+
+::view-transition-new(root) {
+  animation: ts-vt-in 0.32s var(--ts-ease) both;
+}
+
+@keyframes ts-vt-out {
+  to { opacity: 0; }
+}
+
+@keyframes ts-vt-in {
+  from { opacity: 0; transform: translateY(10px); }
+}
+
+/* ---------- Accesibilidad: menos movimiento ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .ts-reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+/* ---------- Mosaicos de categoría ---------- */
+
+.ts-category-tile {
+  --tile: 79, 70, 229;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  height: 100%;
+  padding: 1.3rem 1.2rem 1.2rem;
+  background: #fff;
+  border: 1px solid var(--ts-border);
+  border-radius: var(--ts-radius);
+  color: inherit;
+  text-decoration: none;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.35s var(--ts-ease), border-color 0.35s, box-shadow 0.35s var(--ts-ease);
+}
+
+/* Brillo del color de la categoría que aparece al pasar el cursor */
+.ts-category-tile::before {
+  content: "";
+  position: absolute;
+  inset: auto -30% -60% auto;
+  width: 160px;
+  height: 160px;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--tile), 0.22), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s, transform 0.5s var(--ts-ease);
+  transform: scale(0.6);
+}
+
+.ts-category-tile:hover {
+  transform: translateY(-5px);
+  border-color: rgba(var(--tile), 0.45);
+  box-shadow: 0 20px 40px -18px rgba(var(--tile), 0.5);
+}
+
+.ts-category-tile:hover::before {
+  opacity: 1;
+  transform: scale(1.4);
+}
+
+.ts-category-icon {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 0.8rem;
+  border-radius: 15px;
+  background: rgba(var(--tile), 0.1);
+  color: rgb(var(--tile));
+  font-size: 1.45rem;
+  transition: transform 0.4s var(--ts-ease), background-color 0.3s, color 0.3s;
+}
+
+.ts-category-tile:hover .ts-category-icon {
+  transform: rotate(-8deg) scale(1.08);
+  background: rgb(var(--tile));
+  color: #fff;
+}
+
+.ts-category-name {
+  font-family: var(--ts-font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.ts-category-count {
+  font-size: 0.82rem;
+  color: var(--ts-muted);
+}
+
+.ts-category-arrow {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  color: var(--ts-muted);
+  transition: transform 0.3s var(--ts-ease), color 0.3s;
+}
+
+.ts-category-tile:hover .ts-category-arrow {
+  transform: translate(3px, -3px);
+  color: rgb(var(--tile));
+}
+
+/* Un color distinto para cada categoría */
+.ts-categories > :nth-child(5n + 1) .ts-category-tile { --tile: 79, 70, 229; }
+.ts-categories > :nth-child(5n + 2) .ts-category-tile { --tile: 8, 145, 178; }
+.ts-categories > :nth-child(5n + 3) .ts-category-tile { --tile: 217, 119, 6; }
+.ts-categories > :nth-child(5n + 4) .ts-category-tile { --tile: 147, 51, 234; }
+.ts-categories > :nth-child(5n + 5) .ts-category-tile { --tile: 22, 163, 74; }

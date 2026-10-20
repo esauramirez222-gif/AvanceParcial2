@@ -1,0 +1,82 @@
+<div class="ts-page-header">
+  <div class="container">
+    <h1 class="h3 mb-1">Catálogo de productos</h1>
+    <p class="mb-0">Encuentra el accesorio ideal para tus dispositivos.</p>
+  </div>
+</div>
+
+<div class="container my-4">
+  <div class="row g-4">
+    <!-- Filtros -->
+    <aside class="col-lg-3">
+      <div class="card ts-card ts-filters">
+        <div class="card-body">
+          <label for="busqueda" class="form-label fw-semibold">Buscar</label>
+          <div class="input-group mb-4">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <input id="busqueda" name="busqueda" type="search" class="form-control" placeholder="Ej. audífonos" [(ngModel)]="busqueda" />
+          </div>
+
+          <h2 class="h6 fw-semibold">Categorías</h2>
+          <div class="list-group list-group-flush ts-filter-list mb-4">
+            <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between"
+              [ngClass]="{ 'active': categoriaSeleccionada === '' }" (click)="seleccionarCategoria('')">
+              Todas
+            </button>
+            @for (c of categorias; track c._id) {
+              <button type="button" class="list-group-item list-group-item-action d-flex justify-content-between"
+                [ngClass]="{ 'active': categoriaSeleccionada === c._id }" (click)="seleccionarCategoria(c._id)">
+                {{ c.nombre }} <span class="badge rounded-pill text-bg-light">{{ contarEnCategoria(c._id) }}</span>
+              </button>
+            }
+          </div>
+
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="soloDisponibles" name="soloDisponibles" [(ngModel)]="soloDisponibles" />
+            <label class="form-check-label" for="soloDisponibles">Solo disponibles</label>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Resultados -->
+    <section class="col-lg-9">
+      <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3">
+        <div>
+          <h2 class="h5 mb-0">{{ tituloCategoria }}</h2>
+          <small class="text-body-secondary" aria-live="polite">{{ productosFiltrados.length }} producto(s)</small>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <label for="orden" class="small text-nowrap">Ordenar por</label>
+          <select id="orden" name="orden" class="form-select form-select-sm" [(ngModel)]="orden">
+            <option value="relevancia">Relevancia</option>
+            <option value="precio-asc">Precio: menor a mayor</option>
+            <option value="precio-desc">Precio: mayor a menor</option>
+            <option value="nombre">Nombre (A-Z)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        @for (producto of productosFiltrados; track producto._id; let i = $index) {
+          <div class="col-sm-6 col-xl-4" [appReveal]="(i % 3) * 80">
+            <app-product-card
+              [producto]="producto"
+              [categoria]="nombreCategoria(producto.categoria)"
+              [promedio]="promedio(producto._id)"
+              [totalResenas]="totalResenas(producto._id)" />
+          </div>
+        } @empty {
+          <div class="col-12">
+            <div class="ts-empty">
+              <i class="bi bi-search"></i>
+              <h3 class="h5">No encontramos productos</h3>
+              <p>Prueba con otra búsqueda o quita los filtros.</p>
+              <button class="btn btn-ts" (click)="limpiarFiltros()">Limpiar filtros</button>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+  </div>
+</div>

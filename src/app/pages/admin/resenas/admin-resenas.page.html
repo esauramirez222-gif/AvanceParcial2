@@ -1,0 +1,49 @@
+<div class="container my-4">
+  <app-admin-nav />
+
+  <h1 class="h3 mb-0">Moderación de reseñas</h1>
+  <p class="text-body-secondary small">Elimina las reseñas que incumplan las políticas del sitio.</p>
+
+  <div class="d-flex flex-wrap gap-2 mb-3">
+    <button class="btn btn-sm" [class]="filtroCalificacion === 0 ? 'btn-ts' : 'btn-light'" (click)="filtroCalificacion = 0">Todas</button>
+    @for (c of calificaciones; track c) {
+      <button class="btn btn-sm" [class]="filtroCalificacion === c ? 'btn-ts' : 'btn-light'" (click)="filtroCalificacion = c">
+        {{ c }} <i class="bi bi-star-fill ts-star-inline"></i>
+      </button>
+    }
+  </div>
+
+  <div class="row g-3">
+    @for (r of resenas; track r._id) {
+      <div class="col-md-6">
+        <article class="card ts-card h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between gap-2">
+              <div>
+                <a [routerLink]="['/producto', r.producto]" class="fw-semibold text-reset">{{ producto(r.producto) }}</a>
+                <div class="small text-body-secondary">{{ autor(r.usuario) }} · {{ r.fecha | date: 'd MMM y' }}</div>
+              </div>
+              <button class="btn btn-sm btn-light text-danger align-self-start" (click)="resenaPorEliminar = r" title="Eliminar reseña">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+            <app-star-rating [calificacion]="r.calificacion" />
+            <p class="mb-0 mt-2">{{ r.comentario }}</p>
+          </div>
+        </article>
+      </div>
+    } @empty {
+      <div class="col-12">
+        <div class="ts-empty py-4"><i class="bi bi-chat-square"></i><p class="mb-0">No hay reseñas para mostrar.</p></div>
+      </div>
+    }
+  </div>
+</div>
+
+<app-confirm-dialog
+  [visible]="resenaPorEliminar !== null"
+  titulo="Eliminar reseña"
+  mensaje="La reseña se eliminará por incumplir las políticas del sitio. Esta acción no se puede deshacer."
+  textoConfirmar="Eliminar"
+  (confirmar)="confirmarEliminar()"
+  (cancelar)="resenaPorEliminar = null" />

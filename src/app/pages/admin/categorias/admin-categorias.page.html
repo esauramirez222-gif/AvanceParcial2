@@ -1,0 +1,69 @@
+<div class="container my-4">
+  <app-admin-nav />
+
+  <h1 class="h3 mb-0">Gestión de categorías</h1>
+  <p class="text-body-secondary small">Organiza los productos del catálogo por categoría.</p>
+
+  <div class="row g-4">
+    <!-- Formulario -->
+    <div class="col-lg-4">
+      <form #form="ngForm" (ngSubmit)="guardar(form)" class="card ts-card ts-sticky" novalidate>
+        <div class="card-body">
+          <h2 class="h5 mb-3">{{ idEditando ? 'Editar categoría' : 'Nueva categoría' }}</h2>
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input id="nombre" name="nombre" class="form-control" required minlength="3" [(ngModel)]="nombre" #nombreCtrl="ngModel"
+              [class.is-invalid]="(nombreCtrl.invalid && (nombreCtrl.touched || form.submitted)) || nombreRepetido" />
+            <div class="invalid-feedback">
+              @if (nombreRepetido) { Ya existe una categoría con ese nombre. } @else { Escribe un nombre (mínimo 3 caracteres). }
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea id="descripcion" name="descripcion" rows="3" class="form-control" required [(ngModel)]="descripcion" #descCtrl="ngModel"
+              [class.is-invalid]="descCtrl.invalid && (descCtrl.touched || form.submitted)"></textarea>
+            <div class="invalid-feedback">La descripción es obligatoria.</div>
+          </div>
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-ts flex-fill">{{ idEditando ? 'Guardar cambios' : 'Añadir categoría' }}</button>
+            @if (idEditando) {
+              <button type="button" class="btn btn-light" (click)="cancelar(form)">Cancelar</button>
+            }
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Lista -->
+    <div class="col-lg-8">
+      <div class="card ts-card">
+        <ul class="list-group list-group-flush">
+          @for (c of categorias; track c._id) {
+            <li class="list-group-item d-flex align-items-center gap-3 py-3" [class.list-group-item-light]="idEditando === c._id">
+              <span class="ts-icon-circle"><i class="bi bi-tag"></i></span>
+              <div class="flex-grow-1">
+                <div class="fw-semibold">{{ c.nombre }}</div>
+                <div class="small text-body-secondary">{{ c.descripcion }}</div>
+              </div>
+              <span class="badge rounded-pill text-bg-light">{{ productosEn(c._id) }} producto(s)</span>
+              <div class="text-nowrap">
+                <button class="btn btn-sm btn-light" (click)="editar(c)" title="Editar"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-sm btn-light text-danger ms-1" (click)="pedirEliminar(c)" title="Eliminar"><i class="bi bi-trash"></i></button>
+              </div>
+            </li>
+          } @empty {
+            <li class="list-group-item text-center text-body-secondary py-4">No hay categorías registradas.</li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-confirm-dialog
+  [visible]="categoriaPorEliminar !== null"
+  titulo="Eliminar categoría"
+  [mensaje]="'¿Eliminar la categoría «' + categoriaPorEliminar?.nombre + '»?'"
+  textoConfirmar="Eliminar"
+  (confirmar)="confirmarEliminar()"
+  (cancelar)="categoriaPorEliminar = null" />
